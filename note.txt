@@ -1,0 +1,24 @@
+docker run --name flask_db -e POSTGRES_PASSWORD=password -e POSTGRES_USER=user -e POSTGRES_DB=notes_db -p 5432:5432 -d postgres  
+pour la  création de base de donner 
+
+docker build . -t flask_app
+
+docker network create flask_app_network 
+pour liée le cotainer avec la b
+
+
+
+docker network connect flask_app_network flask_db
+
+docker run --name flask_app_container -e DATABASE_HOST=flask_db:5432 --network=flask_app_network -p 5000:5000 flask_app
+pour la création de service web
+
+
+
+docker exec -it container_name bash
+psql -U user notes_db 
+\dt to get info about tables
+SELECT * FROM note ; get  all columns 
+
+
+docker build . -t abdallah01/flask_app

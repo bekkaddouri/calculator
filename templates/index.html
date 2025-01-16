@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculateur de Moyenne</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      max-width: 600px;
+    }
+    input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculateur de Moyenne</h1>
+  <form id="averageForm">
+    <label for="semester1">Note du premier semestre :</label>
+    <input type="number" id="semester1" placeholder="Entrez la note du 1er semestre" required />
+    <label for="semester2">Note du deuxième semestre :</label>
+    <input type="number" id="semester2" placeholder="Entrez la note du 2ème semestre" required />
+    <button type="button" onclick="calculateAverage()">Calculer</button>
+  </form>
+  <div class="result" id="result"></div>
+  <script>
+    var endpoint = "http://localhost:5000/calculate"
+   async function calculateAverage() {
+      const semester1 = parseFloat(document.getElementById('semester1').value);
+      const semester2 = parseFloat(document.getElementById('semester2').value);
+
+      if (isNaN(semester1) || isNaN(semester2)) {
+        document.getElementById('result').textContent = 'Veuillez entrer des valeurs valides.';
+        return;
+      }
+
+      const average = (semester1 + semester2) / 2;
+      document.getElementById('result').textContent = `La moyenne des deux semestres est : ${average.toFixed(2)}`;
+   
+      fetch(endpoint, {
+        method:"post",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          semester1,
+          semester2
+        })
+      })
+    }
+  </script>
+</body>
+</html>
+

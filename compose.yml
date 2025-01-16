@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  calculator-moy:
+    build: .
+    container_name: flask_compose_app
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_HOST: "flask_compose_db:5432"
+    depends_on:
+      - flask_db
+
+  flask_db:
+    container_name: flask_compose_db
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "notes_db"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
